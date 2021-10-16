@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiEndpoint:{
+    loginUrl:'http://localhost:8080/api/v1/global/login',
+    createAccountUrl:'http://localhost:8080/api/v1/global/create-account'
+  }
 };
 
 /*
