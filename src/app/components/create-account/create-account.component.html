@@ -2,8 +2,8 @@
     <div class="row align-items-center">
         <div class="col align-self-center">
 
-            <div class="card mt-5 custom-ml-5" style="width: 25rem;">
-                
+            <div class="card mt-5 custom-ml-5" style="width: 40rem;">
+
                 <!-- Alert Popup for failed user creation | Start -->
                 <div class="alert alert-danger align-items-center alert-dismissible fade show" role="alert"
                     *ngIf="showErrorAlert">
@@ -16,8 +16,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <!-- Alert Popup for failed user creation | End -->
-                <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" 
-                role="alert" *ngIf="showSuccessAlert">
+                <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert"
+                    *ngIf="showSuccessAlert">
                     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
                         <use xlink:href="#check-circle-fill" />
                     </svg>
@@ -29,49 +29,66 @@
 
                 <div class="card-body pt-2">
                     <div class="text-center">
-                        <img src="./assets/ishare_logo_transparent.png" class="w-75" alt="iShare app logo">
+                        <img src="./assets/ishare_logo_transparent.png" class="w-50" alt="iShare app logo">
                     </div>
                     <h3 class="card-title text-center text-secondary">Create Account</h3>
                     <h6 class="card-subtitle text-muted my-1 text-center">Let's Get Started</h6>
 
                     <form action="#" class="mt-1" [formGroup]="createAccountFormGroup">
-                        <div class="form-floating mb-3">
-                            <input type="text" [ngClass]="usernameClassList" id="username"
-                                placeholder="Eg: sureshkumar.a" autofocus autocomplete="new-username"
-                                formControlName="username">
-                            <label for="username">Username</label>
-                            <div class="invalid-tooltip">
-                                Please choose a unique and valid username without space
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <input type="text" [ngClass]="usernameClassList" id="username"
+                                        placeholder="Eg: sureshkumar.a" autofocus autocomplete="new-username"
+                                        formControlName="username">
+                                    <label for="username">Username</label>
+                                    <div class="invalid-tooltip">
+                                        Please enter a unique and valid username without space
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <input [type]="passwordType" [ngClass]="passwordClassList"
+                                        formControlName="password" id="password" placeholder="password"
+                                        autocomplete="new-password">
+                                    <label for="password">Password</label>
+                                    <div class="form-check font-monospace">
+                                        <input class="form-check-input" type="checkbox" value="" id="showPassword"
+                                            (click)="tooglePassword()">
+                                        <label class="form-check-label" for="showPassword">
+                                            Show password
+                                        </label>
+                                    </div>
+                                    <div class="invalid-tooltip">
+                                        Please enter a unique and valid Password containing at least one numeric digit,
+                                        one uppercase and one lowercase letter
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-floating mb-3">
-                            <input type="email" [ngClass]="emailAddressClassList" id="email-address"
-                                formControlName="emailAddress" placeholder="name@example.com">
-                            <label for="email-address">Email address</label>
-                            <div class="invalid-tooltip">
-                                Please choose a valid Email address
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <input type="email" [ngClass]="emailAddressClassList" id="emailAddress"
+                                        formControlName="emailAddress" placeholder="Eg: user@gmail.com">
+                                    <label for="emailAddress">Email address</label>
+                                    <div class="invalid-tooltip">
+                                        Please enter a valid Email address
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <input type="text" [ngClass]="displayNameClassList" id="displayName"
+                                        formControlName="displayName" placeholder="Eg: Suresh Kumar">
+                                    <label for="displayName">Display Name</label>
+                                    <div class="invalid-tooltip">
+                                        Please enter a valid name
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-floating mb-3">
-                            <input [type]="passwordType" [ngClass]="passwordClassList" formControlName="password"
-                                id="password" placeholder="password" autocomplete="new-password">
-                            <label for="password">Password</label>
-                            <div class="form-check font-monospace">
-                                <input class="form-check-input" type="checkbox" value="" id="showPassword"
-                                    (click)="tooglePassword()">
-                                <label class="form-check-label" for="showPassword">
-                                    Show password
-                                </label>
-                            </div>
-                            <div class="invalid-tooltip">
-                                Please choose a unique and valid Password containing at least one numeric digit, one
-                                uppercase and one lowercase letter
-                            </div>
-                        </div>
-
-
 
                         <h6 class="class-text mb-2 font-monospace">By creating an account, you agree to our <a href="#"
                                 class="card-link">Terms of Service</a></h6>

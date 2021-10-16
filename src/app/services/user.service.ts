@@ -4,6 +4,7 @@ import { Observable, throwError } from "rxjs";
 import { catchError, retry } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Login } from "../model/login.modal";
+import { User } from "../model/user.modal";
 
 @Injectable({
     providedIn: 'root'
@@ -28,8 +29,19 @@ export class UserService {
             'Something bad happened; please try again later.');
     }
 
-    createAccount(email: string, password: string) {
+    createAccount(username: string, password: string, emailAddress: string, displayName: string): Observable<HttpResponse<User>> {
         // return this.auth.createUserWithEmailAndPassword(email,password);
+        const user: User = {
+            uid: "",
+            username: username,
+            password: password,
+            emailAddress: emailAddress,
+            displayName: displayName,
+            status: true
+        };
+        return this.http.post<User>(environment.apiEndpoint.createAccountUrl, user, { observe: 'response' })
+            .pipe(retry(1),
+                catchError(this.handleError.bind(this)));
     }
 
     login(username: string, password: string): Observable<HttpResponse<Login>> {

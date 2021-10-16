@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -21,6 +21,7 @@ export class CreateAccountComponent implements OnInit {
   usernameClassList: String[] = ["form-control"];
   passwordClassList: String[] = ["form-control"];
   emailAddressClassList: String[] = ["form-control"];
+  displayNameClassList: String[] = ["form-control"];
 
   createAccountFormGroup: FormGroup;
 
@@ -30,7 +31,8 @@ export class CreateAccountComponent implements OnInit {
     this.createAccountFormGroup = this.formGroup.group({
       username: '',
       password: '',
-      emailAddress: ''
+      emailAddress: '',
+      displayName: ''
     });
   }
 
@@ -48,56 +50,67 @@ export class CreateAccountComponent implements OnInit {
   createAccount() {
     this.disableSubmitBtn = true;
     this.setDefaultFormClassList();
-    // if (this.validateFormValues()) {
-    //   console.info("User Created Succeesfully");
-    //   this.userService.createAccount(this.createAccountFormGroup.value.emailAddress,
-    //     this.createAccountFormGroup.value.password)
-    //     .then(response => {
-    //       this.showSuccessAlert = true;
-    //       console.log("User created successfully");
-    //       console.info(response.user);
-    //       // Wait for 2 second and redirect to login
-    //       setTimeout(() => {
-    //         // Redirect to login page after user created
-    //         this.route.navigate(['/login']);
-    //       }, 1900);
-
-    //     }).catch(err => {
-    //       console.error(err)
-    //       this.showErrorAlert = true;
-    //       this.showErrorAlertMsg = err;
-    //     }).finally(() => {
-    //       this.disableSubmitBtn = false;
-    //     });
-    // } else {
-    //   console.info("Form Validation failed");
-    //   this.disableSubmitBtn = false;
-    // }
+    const { username, password, emailAddress, displayName } = this.createAccountFormGroup.value;
+    if (this.validateFormValues(username, password, emailAddress, displayName)) {
+      console.info("User Created Succeesfully");
+      this.userService.createAccount(username, password, emailAddress, displayName).subscribe((response) => {
+        if (response.status == 200) {
+          const data = response.body;
+          if (data != null) {
+            this.showSuccessAlert = true;
+            console.log("User created successfully");
+            console.info(data);
+            setTimeout(() => {
+              // Redirect to login page after user created
+              this.route.navigate(['/login']);
+            }, 1900);
+          } else {
+            this.showErrorAlert = true;
+            this.showErrorAlertMsg = "User Creation failed"
+          }
+        } else {
+          console.info(response)
+          this.showErrorAlert = true;
+          this.showErrorAlertMsg = "Unsuccessful Response code from server"
+        }
+        this.disableSubmitBtn = false;
+      });
+    } else {
+      console.info("Form Validation failed");
+      this.disableSubmitBtn = false;
+    }
 
   }
 
-  validateFormValues(): Boolean {
+  validateFormValues(username: string, password: string, emailAddress: string, displayName: string): boolean {
 
-    if (this.formValidationService.validateEmail(this.createAccountFormGroup.value.emailAddress)) {
-      this.emailAddressClassList.push("is-valid");
+    if (this.formValidationService.validateUsername(username)) {
+      this.usernameClassList.push("is-valid");
     } else {
-      this.emailAddressClassList.push("is-invalid");
+      this.usernameClassList.push("is-invalid");
       return false;
     }
 
-    if (this.formValidationService.validatePassword(this.createAccountFormGroup.value.password)) {
+    if (this.formValidationService.validatePassword(password)) {
       this.passwordClassList.push("is-valid");
     } else {
       this.passwordClassList.push("is-invalid");
       return false;
     }
 
-    // if (this.formValidationService.validateUsername(this.createAccountFormGroup.value.username)) {
-    //   this.usernameClassList.push("is-valid");
-    // } else {
-    //   this.usernameClassList.push("is-invalid");
-    //   return false;
-    // }
+    if (this.formValidationService.validateEmail(emailAddress)) {
+      this.emailAddressClassList.push("is-valid");
+    } else {
+      this.emailAddressClassList.push("is-invalid");
+      return false;
+    }
+
+    if (this.formValidationService.validateName(displayName)) {
+      this.displayNameClassList.push("is-valid");
+    } else {
+      this.displayNameClassList.push("is-invalid");
+      return false;
+    }
 
     return true;
   }
@@ -108,6 +121,7 @@ export class CreateAccountComponent implements OnInit {
     this.usernameClassList = ["form-control"];
     this.passwordClassList = ["form-control"];
     this.emailAddressClassList = ["form-control"];
+    this.displayNameClassList = ["form-control"];
   }
 
 }
