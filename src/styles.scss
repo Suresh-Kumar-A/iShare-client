@@ -7,9 +7,19 @@ body {
 .custom-font {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-.custom-full-height {
-  height: 100vh;
+// .custom-full-height {
+//   height: 100vh;
+// }
+// .custom-ml-5 {
+//   margin-left: 15rem !important;
+// }
+
+.custom-bg-dark {
+  background-color: #30263d !important;
 }
-.custom-ml-5 {
-  margin-left: 15rem !important;
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

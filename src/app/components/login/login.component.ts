@@ -10,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  styles: [`::ng-deep body{background-color: #30263d !important;}`]
+  // styles: [`::ng-deep body{background-color: #30263d !important;}`]
 })
 export class LoginComponent implements OnInit {
   disableSubmitBtn = false;
