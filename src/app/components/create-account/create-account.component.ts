@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AppConstants } from 'src/app/model/appconstants';
 import { UserService } from 'src/app/services/user.service';
 import { FormValidationService } from '../../services/form.validation.service';
 
@@ -14,30 +15,46 @@ import { FormValidationService } from '../../services/form.validation.service';
 export class CreateAccountComponent implements OnInit {
 
   disableSubmitBtn = false;
-  showErrorAlert = false;
-  showSuccessAlert = false;
-  showErrorAlertMsg = "";
   passwordType = "password";
-  usernameClassList: String[] = ["form-control"];
-  passwordClassList: String[] = ["form-control"];
-  emailAddressClassList: String[] = ["form-control"];
-  displayNameClassList: String[] = ["form-control"];
 
-  createAccountFormGroup: FormGroup;
 
-  constructor(private formValidationService: FormValidationService, private formGroup: FormBuilder,
+  loginInfoSubFormGroup: FormGroup;
+  personalInfoSubFormGroup: FormGroup;
+  contactInfoSubFormGroup: FormGroup;
+
+
+  constructor(private formValidationService: FormValidationService, private formBuilder: FormBuilder,
     private userService: UserService, private route: Router) {
     // If you don't include it in constructor you will get an error
-    this.createAccountFormGroup = this.formGroup.group({
-      username: '',
-      password: '',
-      emailAddress: '',
-      displayName: ''
+
+    this.loginInfoSubFormGroup= this.formBuilder.group({
+      username: new FormControl('testuser',[
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20),
+        Validators.pattern(AppConstants.USERNAME_REGEXP)
+      ]),
+      password: 
+      new FormControl('@Test123',[
+        Validators.required,Validators.minLength(3),Validators.maxLength(15),
+        Validators.pattern(AppConstants.PASSWORD_REGEXP)
+      ])
+    });
+    this.personalInfoSubFormGroup= this.formBuilder.group({
+      displayName: new FormControl('Test User',[
+        Validators.required,Validators.minLength(2),Validators.maxLength(20),
+        Validators.pattern(AppConstants.NAME_REGEXP)
+      ])
+    });
+    this.contactInfoSubFormGroup= this.formBuilder.group({
+      emailAddress: new FormControl('testuser@ishare.com',[
+        Validators.required,
+        Validators.pattern(AppConstants.EMAIL_REGEXP)
+      ])
     });
   }
 
   ngOnInit(): void {
-    // this.createAccountFormGroup.valueChanges.subscribe(console.log);
   }
 
   tooglePassword() {
@@ -49,15 +66,17 @@ export class CreateAccountComponent implements OnInit {
 
   createAccount() {
     this.disableSubmitBtn = true;
-    this.setDefaultFormClassList();
-    const { username, password, emailAddress, displayName } = this.createAccountFormGroup.value;
+    const { username, password} = this.loginInfoSubFormGroup.value;
+    const { emailAddress} = this.contactInfoSubFormGroup.value;
+    const { displayName } = this.personalInfoSubFormGroup.value;
+
     if (this.validateFormValues(username, password, emailAddress, displayName)) {
       console.info("User Created Succeesfully");
       this.userService.createAccount(username, password, emailAddress, displayName).subscribe((response) => {
         if (response.status == 200) {
           const data = response.body;
           if (data != null) {
-            this.showSuccessAlert = true;
+            // this.showSuccessAlert = true;
             console.log("User created successfully");
             console.info(data);
             setTimeout(() => {
@@ -65,13 +84,13 @@ export class CreateAccountComponent implements OnInit {
               this.route.navigate(['/login']);
             }, 1900);
           } else {
-            this.showErrorAlert = true;
-            this.showErrorAlertMsg = "User Creation failed"
+            // this.showErrorAlert = true;
+            // this.showErrorAlertMsg = "User Creation failed"
           }
         } else {
           console.info(response)
-          this.showErrorAlert = true;
-          this.showErrorAlertMsg = "Unsuccessful Response code from server"
+          // this.showErrorAlert = true;
+          // this.showErrorAlertMsg = "Unsuccessful Response code from server"
         }
         this.disableSubmitBtn = false;
       });
@@ -85,43 +104,34 @@ export class CreateAccountComponent implements OnInit {
   validateFormValues(username: string, password: string, emailAddress: string, displayName: string): boolean {
 
     if (this.formValidationService.validateUsername(username)) {
-      this.usernameClassList.push("is-valid");
+      // this.usernameClassList.push("is-valid");
     } else {
-      this.usernameClassList.push("is-invalid");
+      // this.usernameClassList.push("is-invalid");
       return false;
     }
 
     if (this.formValidationService.validatePassword(password)) {
-      this.passwordClassList.push("is-valid");
+      // this.passwordClassList.push("is-valid");
     } else {
-      this.passwordClassList.push("is-invalid");
+      // this.passwordClassList.push("is-invalid");
       return false;
     }
 
     if (this.formValidationService.validateEmail(emailAddress)) {
-      this.emailAddressClassList.push("is-valid");
+      // this.emailAddressClassList.push("is-valid");
     } else {
-      this.emailAddressClassList.push("is-invalid");
+      // this.emailAddressClassList.push("is-invalid");
       return false;
     }
 
     if (this.formValidationService.validateName(displayName)) {
-      this.displayNameClassList.push("is-valid");
+      // this.displayNameClassList.push("is-valid");
     } else {
-      this.displayNameClassList.push("is-invalid");
+      // this.displayNameClassList.push("is-invalid");
       return false;
     }
 
     return true;
-  }
-
-  setDefaultFormClassList() {
-    this.showErrorAlert = false;
-    this.showSuccessAlert = false;
-    this.usernameClassList = ["form-control"];
-    this.passwordClassList = ["form-control"];
-    this.emailAddressClassList = ["form-control"];
-    this.displayNameClassList = ["form-control"];
   }
 
 }

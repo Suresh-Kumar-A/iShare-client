@@ -8,7 +8,7 @@ import { CreateAccountComponent } from './components/create-account/create-accou
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbCardModule, NbButtonModule, NbCheckboxModule, NbInputModule, NbSelectModule, NbSpinnerModule, NbFormFieldModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbCardModule, NbButtonModule, NbCheckboxModule, NbInputModule, NbSelectModule, NbSpinnerModule, NbFormFieldModule, NbStepperModule, NbIconModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 @NgModule({
@@ -27,14 +27,15 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     NbThemeModule.forRoot({ name: 'default' }),
     NbLayoutModule,
     NbEvaIconsModule,
+    NbIconModule,
     NbCardModule,
     NbInputModule,
     NbButtonModule,
     NbCheckboxModule,
     NbSelectModule,
     NbSpinnerModule,
-    NbEvaIconsModule,
-    NbFormFieldModule
+    NbFormFieldModule,
+    NbStepperModule
   ],
   providers: [],
   bootstrap: [AppComponent]
