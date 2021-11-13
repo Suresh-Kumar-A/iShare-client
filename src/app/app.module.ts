@@ -8,14 +8,18 @@ import { CreateAccountComponent } from './components/create-account/create-accou
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbCardModule, NbButtonModule, NbCheckboxModule, NbInputModule, NbSelectModule, NbSpinnerModule, NbFormFieldModule, NbStepperModule, NbIconModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbCardModule, NbButtonModule, NbCheckboxModule, NbInputModule, NbSelectModule, NbSpinnerModule, NbFormFieldModule, NbStepperModule, NbIconModule, NbSidebarModule, NbActionsModule, NbSearchModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { AuthorDashboardComponent } from './components/author/author-dashboard/author-dashboard.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
+    AuthorDashboardComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +29,8 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     HttpClientModule,
     BrowserAnimationsModule,
     NbThemeModule.forRoot({ name: 'default' }),
+    NbSidebarModule.forRoot(),
+    NbSidebarModule,
     NbLayoutModule,
     NbEvaIconsModule,
     NbIconModule,
@@ -35,7 +41,9 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     NbSelectModule,
     NbSpinnerModule,
     NbFormFieldModule,
-    NbStepperModule
+    NbStepperModule,
+    NbActionsModule,
+    NbSearchModule
   ],
   providers: [],
   bootstrap: [AppComponent]
