@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
             console.log("Success")
             this.jwtService.saveToken(data.token);
             // if loggedIn user is not admin he will be auto redirect to user profile
+            
             this.router.navigate(['/admin/profile']);
           } else {
             this.showErrorAlert = true;
