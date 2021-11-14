@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Login } from 'src/app/model/login.modal';
+import { Login } from 'src/app/modal/login.modal';
 import { FormValidationService } from 'src/app/services/form.validation.service';
+import { JwtService } from 'src/app/services/jwt.service';
 import { UserService } from 'src/app/services/user.service';
 
 
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  styles: [`::ng-deep body{background-color: #30263d !important;}`]
+  // styles: [`::ng-deep body{background-color: #30263d !important;}`]
 })
 export class LoginComponent implements OnInit {
   disableSubmitBtn = false;
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   loginFormGroup: FormGroup;
 
   constructor(private formValidationService: FormValidationService, private formGroup: FormBuilder,
-    private userService: UserService, private route: Router) {
+    private userService: UserService, private router: Router,private jwtService:JwtService) {
     // If you don't include it in constructor you will get an error
     this.loginFormGroup = this.formGroup.group({
       username: 'ishare',
@@ -33,6 +34,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // logging out the user if already logged in
+    this.jwtService.removeToken();
   }
 
   tooglePassword() {
@@ -51,8 +54,11 @@ export class LoginComponent implements OnInit {
       this.userService.login(username, password).subscribe((response) => {
         if (response.status == 200) {
           const data = response.body;
-          if (data?.token) {
+          if (data!=null && data.token) {
             console.log("Success")
+            this.jwtService.saveToken(data.token);
+            // if loggedIn user is not admin he will be auto redirect to user profile
+            this.router.navigate(['/admin/profile']);
           } else {
             this.showErrorAlert = true;
             this.showErrorAlertMsg = data?.errorMessae == undefined ? "" : data?.errorMessae;
@@ -68,7 +74,6 @@ export class LoginComponent implements OnInit {
       console.info("Form Validation failed");
       this.disableSubmitBtn = false;
     }
-
   }
 
   validateFormValues(username: string, password: string): boolean {

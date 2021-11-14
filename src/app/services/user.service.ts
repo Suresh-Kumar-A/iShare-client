@@ -3,8 +3,8 @@ import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, retry } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Login } from "../model/login.modal";
-import { User } from "../model/user.modal";
+import { Login } from "../modal/login.modal";
+import { User } from "../modal/user.modal";
 
 @Injectable({
     providedIn: 'root'
