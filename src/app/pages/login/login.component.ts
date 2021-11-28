@@ -1,3 +1,4 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -52,13 +53,11 @@ export class LoginComponent implements OnInit {
     const { username, password } = this.loginFormGroup.value
     if (this.validateFormValues(username, password)) {
       this.userService.login(username, password).subscribe((response) => {
-        if (response.status == 200) {
+        if (response.status == HttpStatusCode.Ok) {
           const data = response.body;
           if (data!=null && data.token) {
-            console.log("Success")
             this.jwtService.saveToken(data.token);
             // if loggedIn user is not admin he will be auto redirect to user profile
-            
             this.router.navigate(['/admin/profile']);
           } else {
             this.showErrorAlert = true;

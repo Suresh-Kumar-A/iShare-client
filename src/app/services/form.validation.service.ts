@@ -70,7 +70,7 @@ export class FormValidationService {
         if (inputdata.length == 0) {
             return false;
         } else {
-            return (/^([A-Za-z])(?=.*[ .?][a-zA-Z])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z]).{1,25}$/.test(inputdata))
+            return (/^([A-Za-z])(?!.*[!`~@#$%^&*()+\-=\[\]{};':"\\|,<>\/?])(.*[A-Za-z0-9])$/.test(inputdata))
         }
     }
 }
