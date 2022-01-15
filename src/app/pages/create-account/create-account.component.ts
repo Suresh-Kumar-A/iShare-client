@@ -20,6 +20,7 @@ export class CreateAccountComponent implements OnInit {
   passwordType = "password";
   usernameClassList: String[] = ["form-control"];
   passwordClassList: String[] = ["form-control"];
+  confirmPasswordClassList: String[] = ["form-control"];
   emailAddressClassList: String[] = ["form-control"];
   displayNameClassList: String[] = ["form-control"];
 
@@ -31,6 +32,7 @@ export class CreateAccountComponent implements OnInit {
     this.createAccountFormGroup = this.formGroup.group({
       username: '',
       password: '',
+      confirmPassword: '',
       emailAddress: '',
       displayName: ''
     });
@@ -50,19 +52,20 @@ export class CreateAccountComponent implements OnInit {
   createAccount() {
     this.disableSubmitBtn = true;
     this.setDefaultFormClassList();
-    const { username, password, emailAddress, displayName } = this.createAccountFormGroup.value;
-    if (this.validateFormValues(username, password, emailAddress, displayName)) {
+    const { username, password, confirmPassword, emailAddress, displayName } = this.createAccountFormGroup.value;
+    if (this.validateFormValues(username, password,confirmPassword, emailAddress, displayName)) {
       this.userService.createAccount(username, password, emailAddress, displayName).subscribe((response) => {
         if (response.status == HttpStatusCode.Created) {
           const data = response.body;
           if (data != null) {
-            this.showSuccessAlert = true;
+            // this.showSuccessAlert = true;
             console.log("User created successfully");
             console.info(data);
-            setTimeout(() => {
-              // Redirect to login page after user created
-              this.route.navigate(['/login']);
-            }, 1900);
+            alert('user created successfully');
+            // setTimeout(() => {
+            //   // Redirect to login page after user created
+            //   this.route.navigate(['/login']);
+            // }, 1900);
           } else {
             this.showErrorAlert = true;
             this.showErrorAlertMsg = "User Creation failed"
@@ -81,12 +84,19 @@ export class CreateAccountComponent implements OnInit {
 
   }
 
-  validateFormValues(username: string, password: string, emailAddress: string, displayName: string): boolean {
+  validateFormValues(username: string, password: string, confirmPassword: string, emailAddress: string, displayName: string): boolean {
 
     if (this.formValidationService.validateUsername(username)) {
       this.usernameClassList.push("is-valid");
     } else {
       this.usernameClassList.push("is-invalid");
+      return false;
+    }
+
+    if(password === confirmPassword){
+      this.confirmPasswordClassList.push("is-valid");
+    }else{
+      this.confirmPasswordClassList.push("is-invalid");
       return false;
     }
 
@@ -97,19 +107,19 @@ export class CreateAccountComponent implements OnInit {
       return false;
     }
 
-    if (this.formValidationService.validateEmail(emailAddress)) {
-      this.emailAddressClassList.push("is-valid");
-    } else {
-      this.emailAddressClassList.push("is-invalid");
-      return false;
-    }
+    // if (this.formValidationService.validateEmail(emailAddress)) {
+    //   this.emailAddressClassList.push("is-valid");
+    // } else {
+    //   this.emailAddressClassList.push("is-invalid");
+    //   return false;
+    // }
 
-    if (this.formValidationService.validateName(displayName)) {
-      this.displayNameClassList.push("is-valid");
-    } else {
-      this.displayNameClassList.push("is-invalid");
-      return false;
-    }
+    // if (this.formValidationService.validateName(displayName)) {
+    //   this.displayNameClassList.push("is-valid");
+    // } else {
+    //   this.displayNameClassList.push("is-invalid");
+    //   return false;
+    // }
 
     return true;
   }
@@ -119,6 +129,7 @@ export class CreateAccountComponent implements OnInit {
     this.showSuccessAlert = false;
     this.usernameClassList = ["form-control"];
     this.passwordClassList = ["form-control"];
+    this.confirmPasswordClassList = ["form-control"];
     this.emailAddressClassList = ["form-control"];
     this.displayNameClassList = ["form-control"];
   }

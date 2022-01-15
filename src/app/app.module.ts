@@ -4,6 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +21,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { InternalServerErrorComponent } from './pages/internal-server-error/internal-server-error.component';
 import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
 import { ViewUsersComponent } from './pages/admin/view-users/view-users.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,8 @@ import { ViewUsersComponent } from './pages/admin/view-users/view-users.componen
     PageNotFoundComponent,
     InternalServerErrorComponent,
     UserDialogComponent,
-    ViewUsersComponent
+    ViewUsersComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +44,10 @@ import { ViewUsersComponent } from './pages/admin/view-users/view-users.componen
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

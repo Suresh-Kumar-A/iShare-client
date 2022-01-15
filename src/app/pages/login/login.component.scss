@@ -1,3 +1,10 @@
 .cs-form-label{
     margin-bottom: 0.25rem;
 }
+
+// setting a custom image in background
+.sign-layout-bg {
+    background: url(/assets/sample-background.jpg) 0 0 no-repeat;
+    background-position: bottom;
+    background-size: cover;
+}
