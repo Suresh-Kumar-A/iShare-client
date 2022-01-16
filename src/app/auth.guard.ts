@@ -19,29 +19,30 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):  boolean {
 
-    var {role} = this.jwtService.getTokenData();
-    var rootPath=route.url[0].path;
+    // var {role} = this.jwtService.getTokenData();
+    // var rootPath=route.url[0].path;
 
-    if(rootPath.startsWith("admin")){
-      if(role===Role.ADMIN){
-        return true;
-      }else if(role===Role.USER){
-        this._router.navigate(['/user/profile']);
-        return false;
-      }else{
-        this._router.navigate(['/login']);
-        return false;
-      }
-    }else if(rootPath.startsWith("user")){
-      if(role===Role.USER || role===Role.ADMIN){
-        return true;
-      }else{
-        this._router.navigate(['/login']);
-        return false;
-      }
-    }else{
-      return true;
-    }  
+    // if(rootPath.startsWith("admin")){
+    //   if(role===Role.ADMIN){
+    //     return true;
+    //   }else if(role===Role.USER){
+    //     this._router.navigate(['/user/profile']);
+    //     return false;
+    //   }else{
+    //     this._router.navigate(['/login']);
+    //     return false;
+    //   }
+    // }else if(rootPath.startsWith("user")){
+    //   if(role===Role.USER || role===Role.ADMIN){
+    //     return true;
+    //   }else{
+    //     this._router.navigate(['/login']);
+    //     return false;
+    //   }
+    // }else{
+    //   return true;
+    // }  
+    return true;
   }
   
 }

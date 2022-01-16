@@ -22,6 +22,7 @@ import { InternalServerErrorComponent } from './pages/internal-server-error/inte
 import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
 import { ViewUsersComponent } from './pages/admin/view-users/view-users.component';
 import { HeaderComponent } from './components/header/header.component';
+import { SidebarComponent } from './fragments/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { HeaderComponent } from './components/header/header.component';
     InternalServerErrorComponent,
     UserDialogComponent,
     ViewUsersComponent,
-    HeaderComponent
+    HeaderComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
